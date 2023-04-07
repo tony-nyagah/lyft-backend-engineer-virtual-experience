@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "lyft-backend-engineer-virtual-experience"
+version = "0.1.0"
+description = "A BackEnd engineer virtual experience as seen on Forage."
+authors = ["Antony Nyagah"]
+readme = "README.md"
+packages = [{include = "lyft_backend_engineer_virtual_experience"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.3.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
