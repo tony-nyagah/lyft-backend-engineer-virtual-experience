@@ -33,7 +33,7 @@ With this in mind, it’s very important that the component is extensible and ea
 Tacking this functionality onto the current system would be difficult and messy - instead, you have been instructed to take the time to refactor the codebase prior to making the change. The first step of this process is to draft up a new (clean) system architecture that will allow for the seamless inclusion of the new functionality. Your task is to draft and submit a class diagram that maps out how the system will be reorganized.
 
 ## UML Class Diagrams
-
+### My initial attempt
 ```mermaid
 classDiagram
     Engine <|-- CapuletEngine
@@ -119,6 +119,54 @@ classDiagram
         -last_service_date int
         -last_service_mileage int
         +needs_service() bool
+    }
+```
+
+### The solution from Forage
+```mermaid
+classDiagram
+    Car *-- Engine 
+    Car *-- Battery
+    Car : -engine Engine
+    Car : -battery Battery
+    Car : +needs_service() bool
+
+    CarFactory --> Car
+
+    Serviceable <|.. Car
+    Serviceable : +needs_service() bool
+
+    Battery : +needs_service() bool   
+    Battery <|.. SpindlerBattery
+    Battery <|.. NubbinBattery
+
+    SpindlerBattery : -last_service_date date
+    SpindlerBattery : -current_date date
+    SpindlerBattery : +needs_service() bool
+    NubbinBattery : -last_service_date date
+    NubbinBattery : -current_date date
+    NubbinBattery : +needs_service() bool
+
+    Engine : +needs_service() bool
+    Engine <|.. CapuletEngine
+    Engine <|.. SternmanEngine
+    Engine <|.. WilloughbyEngine
+
+    CapuletEngine : -last_service_mileage int
+    CapuletEngine : -current_mileage int
+    CapuletEngine : +needs_service() bool
+    WilloughbyEngine : -last_service_mileage int
+    WilloughbyEngine : -current_mileage int
+    WilloughbyEngine : +needs_service() bool
+    SternmanEngine : -warning_light_is_on bool
+    SternmanEngine : +needs_service() bool
+
+    class CarFactory{
+        +create_calliope(current_date: date, last_service_date: date, current_mileage: int, last_service_mileage: int) Car
+        +create_glissade(current_date: date, last_service_date: date, current_mileage: int, last_service_mileage: int) Car
+        +create_palindrome(current_date: date, last_service_date: date, warning_light_is_on: bool) Car
+        +create_rorschach(current_date: date, last_service_date: date, current_mileage: int, last_service_mileage: int) Car
+        +create_thovex(current_date: date, last_service_date: date, current_mileage: int, last_service_mileage: int) Car
     }
 ```
 
